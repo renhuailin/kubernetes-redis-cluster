@@ -64,7 +64,7 @@ redis-trib.py replicate \
   --master-addr `dig +short redis-app-1.redis-service.default.svc.cluster.local`:6379 \
   --slave-addr `dig +short redis-app-4.redis-service.default.svc.cluster.local`:6379
 redis-trib.py replicate \
-  --master-addr `dig +short redis-app-2.redis-service.default.svc.cluster.local`:6379 
+  --master-addr `dig +short redis-app-2.redis-service.default.svc.cluster.local`:6379 \
   --slave-addr `dig +short redis-app-5.redis-service.default.svc.cluster.local`:6379
 ```
 
@@ -72,7 +72,7 @@ redis-trib.py replicate \
 
 Connect to any redis pod
 ```
-kubectl exec -it <podName> -- /bin/bash
+kubectl exec -it <podName> -- /bin/sh
 ```
 Access cli
 ```
@@ -83,9 +83,28 @@ To check cluster nodes
 /usr/local/bin/redis-cli -p 6379 cluster nodes
 ```
 
+# Access redis cluster externally.
+Make sure your nginx ingress controller has started with args `tcp-services-configmap`.
+If not ,modify it,add this arg.
+```
+--tcp-services-configmap=$(POD_NAMESPACE)/nginx-tcp-ingress-configmap
+```
+
+Create TCP ingress ConfigMap
+
+```
+$ kubectl apply -f ingress/redis-cluster-configmap.yaml
+```
+
+Now you can access your redis cluster  with the IP nginx ingress running  and port 9379.
 
 ### Contribs
 
 ```
 Originally contributed by Kelsey Hightower (https://github.com/kelseyhightower/kubernetes-redis-cluster)
 ```
+
+### References
+https://github.com/sanderploegsma/redis-cluster/blob/master/redis-cluster.yml
+
+http://blog.opskumu.com/k8s-ingress.html
