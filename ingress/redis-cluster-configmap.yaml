@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: default-tcp-configmap
+  # name: default-tcp-configmap
+  name: nginx-load-balancer-conf
 data:
   9000: "default/redis-service:6379"
