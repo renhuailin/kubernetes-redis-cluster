@@ -3,5 +3,6 @@ kind: ConfigMap
 metadata:
   name: nginx-tcp-ingress-configmap
   # name: nginx-load-balancer-conf
+  namespace: kube-system
 data:
   9379: "default/redis-service:6379"
