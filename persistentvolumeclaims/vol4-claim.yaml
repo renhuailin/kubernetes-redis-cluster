@@ -11,8 +11,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  selector:
-    matchLabels:
-      path: nfsshare4
-      app: redis
-      podindex: "3"
+  storageClassName: glusterfs
